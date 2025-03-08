@@ -32,3 +32,43 @@
   color: white;
   font-size: 20px;
 }
+.taskList{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.taskShow{
+  border: 1px solid green;
+  border-radius: 30px;
+  padding: 20px;
+  width: 350px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 20px;
+}
+.taskTitle{
+  margin-bottom: 5px;
+}
+.taskEdit{
+  padding: 5px;
+  font-size: 15px;
+  width: 100px;
+  border: none;
+  border-radius: 30px;
+  background-color: blue;
+  color: white;
+  margin-right: 10px;
+}
+.taskDelete{
+  padding: 5px;
+  font-size: 15px;
+  width: 60px;
+  border: none;
+  border-radius: 30px;
+  background-color: red;
+  color: white;
+  margin-right: 10px;
+}
+ 
