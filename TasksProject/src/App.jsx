@@ -6,12 +6,12 @@ import TaskList from './components/TaskList'
 
 function App() {
   const [tasks, setTasks] = useState([])
-  const createTask = (titles, taskDesc) => {
+  const createTask = (title, taskDesc) => {
     const createdTasks = [
       ...tasks,
       {
         id: Math.round(Math.random()*99999),
-        titles,
+        title,
         taskDesc,
       }
     ]
@@ -25,11 +25,25 @@ function App() {
       setTasks(afterDeletingTasks)  // Yeni görev listesiyle 'tasks' durumunu güncelle
   }
 
+  const editTaskById = (id, updatedTitle, updatedTaskDesc) => {
+    const updatedTasks = tasks.map((task) => {
+      if(task.id === id){
+        return {
+          id,
+          title: updatedTitle,  
+          taskDesc: updatedTaskDesc
+        }
+      }
+      return task
+    })
+    setTasks(updatedTasks)
+  }
+
 return (
     <div className="App">
       <TaskCreate onCreate={createTask} />
       <h1>Görevler</h1>
-      <TaskList tasks = {tasks} onDelete={deleteTasksById}/>
+      <TaskList tasks = {tasks} onDelete={deleteTasksById} onUpdate={editTaskById}/>
     </div>
   )
 }
