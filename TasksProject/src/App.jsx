@@ -1,31 +1,47 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import './App.css'
 import TaskCreate from './components/TaskCreate'
 import TaskList from './components/TaskList'
+import axios from 'axios'
 
 function App() {
   const [tasks, setTasks] = useState([])
-  const createTask = (title, taskDesc) => {
+  const createTask = async(title, taskDesc) => {
+    const response = await axios.post('http://localhost:3000/tasks',{
+      title,
+      taskDesc
+    })
+
     const createdTasks = [
       ...tasks,
-      {
-        id: Math.round(Math.random()*99999),
-        title,
-        taskDesc,
-      }
+      response.data
     ]
     setTasks(createdTasks)
   }
 
-  const deleteTasksById = (id) => {
+  const fetchTasks = async() => {
+    const response = await axios.get('http://localhost:3000/tasks')
+    setTasks(response.data)
+  } 
+
+  useEffect(() => {
+    fetchTasks();
+  }, []) 
+
+  const deleteTasksById = async(id) => { 
+    await axios.delete(`http://localhost:3000/tasks/${id}`)
     const afterDeletingTasks = tasks.filter((task) =>{
        return task.id !== id //Silinmek istenen görev dışındaki tüm görevleri al
       })
       setTasks(afterDeletingTasks)  // Yeni görev listesiyle 'tasks' durumunu güncelle
   }
 
-  const editTaskById = (id, updatedTitle, updatedTaskDesc) => {
+  const editTaskById = async(id, updatedTitle, updatedTaskDesc) => {
+    await axios.put(`http://localhost:3000/tasks/${id}`, {
+      title: updatedTitle,
+      taskDesc: updatedTaskDesc
+    })
     const updatedTasks = tasks.map((task) => {
       if(task.id === id){
         return {
